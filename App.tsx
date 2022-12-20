@@ -8,11 +8,11 @@
  * @format
  */
 
-import {NavigationContainer} from '@react-navigation/native';
+import {LinkingOptions, NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Text} from 'react-native';
 import {Routes} from './src/router/routes';
 import AScreen from './src/screens/AScreen';
 import BScreen from './src/screens/BScreen';
@@ -20,8 +20,32 @@ import BScreen from './src/screens/BScreen';
 const Stack = createNativeStackNavigator<Routes>();
 
 const App = () => {
+  const config = {
+    screens: {
+      A: {
+        path: 'A',
+      },
+      BV: {
+        path: 'B',
+      },
+    },
+  };
+
+  const linking: LinkingOptions<ReactNavigation.RootParamList> = {
+    prefixes: ['rn_deeplink://'],
+    // optional
+    config: {
+      screens: {
+        A: 'A',
+        B: 'B',
+      },
+    },
+  };
+
   return (
-    <NavigationContainer>
+    <NavigationContainer
+      linking={linking}
+      fallback={<Text>Loading React Navigation...</Text>}>
       <Stack.Navigator
         // initialRouteName="Home"
         // initialRouteName="Sandbox"
